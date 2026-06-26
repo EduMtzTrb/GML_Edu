@@ -1,95 +1,100 @@
 # Assignment 1 — Graph Generation
 
-## Goal
+## Purpose
 
-Derive a spatial graph from architectural room geometry using TopologicPy,
-following the S02 course workflow. Nodes represent rooms and circulation elements;
-edges represent shared-face spatial adjacency (door-access workaround — see Blockers).
-
-## Source notebooks (read-only references)
-
-| Notebook | Session | Purpose |
-|----------|---------|---------|
-| `S02-01 Primal vs Dual.ipynb` | S02 | CellComplex.ByCells, Graph.ByTopology(direct=True) |
-| `S02-03 Adjacency Vs Access.ipynb` | S02 | Aperture-based access graph (requires door geometry) |
-| `S02-04 Geometric Representations.ipynb` | S02 | Graph.BySpatialRelationships |
-| `S02-06 Importing OBJ files.ipynb` | S02 | Topology.ByOBJPath, OBJ loading pattern |
-
-Course notebooks are in `../../class_notebooks/S02_geometry_to_topology/`.
-
-## Inputs
-
-| File | Location | Status |
-|------|----------|--------|
-| `TB_01_rooms.obj` | `../../shared/assets/resident_gen/Exports/TB_01/` | Available (573 rooms) |
-| `TB_01_corridors.obj` | same | Available (20 corridors) |
-| `TB_01_cores.obj` | same | Available (3 cores) |
-| `TB_01_doors.obj` | same | **EMPTY — 0 door objects** |
-| `TB_01_metadata.csv` | same | Available (573 room attributes) |
-
-## Expected outputs
-
-| File | Location | Description |
-|------|----------|-------------|
-| `nodes.csv` | `04_graph_dataset/` | One row per graph node (13 columns) |
-| `edges.csv` | `04_graph_dataset/` | One row per edge (src_id, dst_id, edge_type) |
-| `01_geometry_and_graph.png` | `05_visuals/` | Topology.Show render |
-| `02_graph_by_type.png` | `05_visuals/` | NetworkX coloured by space_type |
-| `03_graph_by_floor.png` | `05_visuals/` | NetworkX coloured by floor_id |
-| `04_graph_by_apartment.png` | `05_visuals/` | NetworkX coloured by apartment_id |
-| `05_degree_distribution.png` | `05_visuals/` | Degree histogram |
+Derive a spatial room-and-circulation graph from architectural OBJ geometry using TopologicPy,
+following the S02 course workflow. Three Two-Bars building layouts (BB_01, BB_02, BB_03) are
+each processed into a graph CSV dataset and a set of visualisations.
 
 ## Run order
 
 ```
-1. resident_gen Grasshopper script (already run — outputs in shared/assets/resident_gen/)
-2. 03_notebook_work/A1_01_DoubleL_Geometry_to_Graph.ipynb
-      -> produces: 04_graph_dataset/nodes.csv, 04_graph_dataset/edges.csv
-                   05_visuals/01_geometry_and_graph.png
-3. 03_notebook_work/A1_02_DoubleL_Graph_Visualisation_and_Export.ipynb
-      -> produces: 05_visuals/02-05_*.png
-                   05_visuals/assignment1_report_summary.txt
+1. 03_notebook_work/A1_01_TwoBars_Geometry_to_Graph.ipynb
+      Set LAYOUT_ID = "BB_01", "BB_02", or "BB_03". Run once per building.
+      -> reads:   ../../shared/assets/resident_gen/Exports/BB_XX/
+      -> writes:  04_graph_dataset/BB_XX/nodes.csv
+                  04_graph_dataset/BB_XX/edges.csv
+                  05_visuals/BB_XX/BB_XX_01_spatial_adjacency_graph.png
+
+2. 03_notebook_work/A1_02_TwoBars_Graph_Visualisation_and_Export.ipynb
+      Set LAYOUT_ID = "BB_01", "BB_02", or "BB_03". Run once per building.
+      -> reads:   04_graph_dataset/BB_XX/
+      -> writes:  05_visuals/BB_XX/BB_XX_02_graph_by_type.png
+                  05_visuals/BB_XX/BB_XX_03_graph_by_physical_floor.png
+                  05_visuals/BB_XX/BB_XX_04_graph_by_apartment.png
+                  05_visuals/BB_XX/BB_XX_05_degree_distribution.png
+                  05_visuals/BB_XX/BB_XX_assignment1_report_summary.txt
+
+3. 03_notebook_work/A1_03_TwoBars_BB_Visual_Comparison.ipynb
+      Reads all three BBs. No LAYOUT_ID setting required.
+      -> reads:   04_graph_dataset/BB_01/, BB_02/, BB_03/
+      -> writes:  05_visuals/BB_comparison/
 ```
 
-Default: `DEMO_FLOOR = 0` (floor 0 only, fast). Set to `None` for all 5 floors.
+## Inputs
+
+| Path | Contents |
+|------|----------|
+| `../../shared/assets/resident_gen/Exports/BB_01/` | BB_01 OBJ files (rooms, corridors, cores, metadata) |
+| `../../shared/assets/resident_gen/Exports/BB_02/` | BB_02 OBJ files |
+| `../../shared/assets/resident_gen/Exports/BB_03/` | BB_03 OBJ files |
+| `00_brief_and_references/OBJ_EXPORTER_USAGE.md` | OBJ export instructions |
+| `00_brief_and_references/topologicpy_obj_exporter.py` | Export helper script |
+| `01_grasshopper_source/` | Grasshopper definition (empty — place file here) |
+| `02_rhino_exports/` | Per-layer OBJ exports (empty — place files here) |
+
+## Outputs
+
+**nodes.csv columns (14):**
+`layout_id, node_id, node_name, node_role, space_type, zone_type, apartment_id, floor_id, physical_floor, area, volume, X, Y, Z`
+
+**edges.csv columns (8):**
+`layout_id, src_id, dst_id, edge_type, contact_axis, gap_m, shared_span_m, physical_floor`
+
+| Path | Contents |
+|------|----------|
+| `04_graph_dataset/BB_01/` | nodes.csv (175 nodes), edges.csv (388 edges) |
+| `04_graph_dataset/BB_02/` | nodes.csv (381 nodes), edges.csv (858 edges) |
+| `04_graph_dataset/BB_03/` | nodes.csv (141 nodes), edges.csv (303 edges) |
+| `05_visuals/BB_01/` | 9 PNGs: graph views 01–05, Rhino screenshots 06–09; report .txt |
+| `05_visuals/BB_02/` | 9 PNGs: graph views 01–05, Rhino screenshots 06–09; report .txt |
+| `05_visuals/BB_03/` | 9 PNGs: graph views 01–05, Rhino screenshots 06–09; report .txt |
+| `05_visuals/BB_comparison/` | Cross-building dashboards and summary CSVs |
+| `06_submission_text/` | Empty — written interpretation pending |
+
+## Submission evidence
+
+| File | Status |
+|------|--------|
+| `04_graph_dataset/BB_01/nodes.csv` | Present — 175 nodes |
+| `04_graph_dataset/BB_01/edges.csv` | Present — 388 edges |
+| `04_graph_dataset/BB_02/nodes.csv` | Present — 381 nodes |
+| `04_graph_dataset/BB_02/edges.csv` | Present — 858 edges |
+| `04_graph_dataset/BB_03/nodes.csv` | Present — 141 nodes |
+| `04_graph_dataset/BB_03/edges.csv` | Present — 303 edges |
+| `05_visuals/BB_01/` | Present — 5 graph PNGs (01–05), 4 Rhino screenshots (06–09), report .txt |
+| `05_visuals/BB_02/` | Present — 5 graph PNGs (01–05), 4 Rhino screenshots (06–09), report .txt |
+| `05_visuals/BB_03/` | Present — 5 graph PNGs (01–05), 4 Rhino screenshots (06–09), report .txt |
+| `05_visuals/BB_comparison/` | Present — scale dashboard, role comparison, per-view overlays, CSVs |
+| `06_submission_text/` | Empty — written interpretation pending |
+
+## Known limitations
+
+1. **Bounding-box adjacency workaround.** `BB_XX_doors.obj` is empty in the resident_gen exports.
+   The notebook uses bounding-box spatial adjacency with a 0.45 m gap tolerance instead of
+   face-shared or door-access edges. Some cross-wall false adjacencies may appear; some
+   close-but-disconnected rooms may be missed.
+
+2. **No inter-floor edges.** Stair and lift connector geometry is absent from the exports.
+   Vertical circulation is not represented in the graph.
+
+3. **Disconnected per-floor components.** Each physical floor is a separate connected component.
+   Cross-floor graph metrics are computed per component in Assignment 2.
 
 ## Current status
 
-**In progress — notebooks written, not yet run.**
+All three buildings fully processed. Datasets, graph visualisations, and Rhino screenshots
+are present for BB_01, BB_02, and BB_03. Written interpretation in `06_submission_text/` is pending.
 
-Notebook code is complete. Notebooks have not been executed; no CSV or PNG outputs exist yet.
-
-## Blockers
-
-1. **Hardcoded paths need updating.** Notebooks reference:
-   - `EXPORTS_DIR = .../resident_gen/...` — now at `shared/assets/resident_gen/Exports/TB_01/`
-   - `ASSIGN_ROOT = .../assignment_01_graph_generation` — now at `assignments/assignment_01_graph_generation/`
-   - `OUTPUTS_DIR` writes to `outputs/` — folder renamed to `04_graph_dataset/`
-   - `VISUALS_DIR` writes to `05_visuals/` — path root changed
-   **Action required:** update path constants in both notebooks before first run.
-
-2. **Door geometry unavailable.** `TB_01_doors.obj` is empty (0 objects).
-   `Graph.ByTopology(directApertures=True)` cannot be used.
-   Current workaround: shared-face adjacency (`direct=True`).
-   **Fix:** regenerate TB_01 export with door geometry from Grasshopper.
-
-3. **Corridor connectors absent.** Stair/lift inter-floor connections not in exports.
-   Vertical circulation graph edges not possible with current geometry.
-
-## Folder contents
-
-| Folder | Contents |
-|--------|----------|
-| `00_brief_and_references/` | OBJ_EXPORTER_USAGE.md; topologicpy_obj_exporter.py (stub) |
-| `01_grasshopper_source/` | Empty — Grasshopper source file location |
-| `02_rhino_exports/` | Empty — OBJ files exported directly from Rhino go here |
-| `03_notebook_work/` | A1_01_DoubleL_Geometry_to_Graph.ipynb; A1_02_DoubleL_Graph_Visualisation_and_Export.ipynb |
-| `04_graph_dataset/` | Empty — nodes.csv and edges.csv written here at runtime |
-| `05_visuals/` | Empty — PNG figures written here at runtime |
-| `06_submission_text/` | Empty — written interpretation goes here |
-
-## Note on BGR notebook
-
-`A1_01_DoubleL_BGR_Graph_Generation.ipynb` (earlier session work) has been moved to
-`archive/superseded_work/`. It applies the BGR massing workflow (S06-13A) to the
-Double-L building, which is Assignment 3 material. Assignment 1 uses S02 room-level workflow.
+Course reference notebooks: `../../class_notebooks/S02_geometry_to_topology/`
+(S02-01 Primal vs Dual, S02-06 Importing OBJ files)

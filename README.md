@@ -1,19 +1,19 @@
 # GML_Edu — MaCAD S.3: Buildings as Graphs
 
 Student repository for the MaCAD S.3 Graph Machine Learning course.
-Rebuilt from first principles; all geometry and code is original work.
+Applies the Two-Bars resident_gen geometry and the course BGR workflow to an original Rhino pilotis model.
 
 ## Repository structure
 
 ```
 /
-├── class_notebooks/          Official course notebooks (read-only reference)
-│   ├── S02_geometry_to_topology/
-│   ├── S03_graph_analysis/
-│   ├── S04_ifc_to_graph/
-│   ├── S05_graph_datasets/
-│   ├── S06_graph_ml/
-│   └── S07_graph_generation_neo4j/
+├── class_notebooks/
+│   ├── S02_geometry_to_topology/   S02-01 through S02-06
+│   ├── S03_graph_analysis/         S03-07 through S03-09
+│   ├── S04_ifc_to_graph/           S04-10A, S04-10A expanded, S04-11B
+│   ├── S05_graph_datasets/         S05-12
+│   ├── S06_graph_ml/               S06-13, 13A, 13B, 14, 15
+│   └── S07_graph_generation_neo4j/ S07-16 through S07-20
 │
 ├── assignments/
 │   ├── assignment_01_graph_generation/   Room-and-circulation graph from OBJ geometry
@@ -22,37 +22,49 @@ Rebuilt from first principles; all geometry and code is original work.
 │
 ├── shared/
 │   ├── assets/
-│   │   ├── resident_gen/            Grasshopper generator exports (TB_01, BB_01)
-│   │   └── course_supporting_files/ OBJ, IFC, model files from course
+│   │   ├── resident_gen/Exports/    Grasshopper generator exports (BB_01, BB_02, BB_03)
+│   │   └── course_supporting_files/ bgr_model.pt, OBJ, IFC, course datasets
 │   ├── scripts/                     Shared utility scripts
-│   └── docs/                        Methodology notes, notebook map, planning docs
+│   └── docs/                        Notebook map, planning docs, requirements checklist
 │
-├── final_project/                   Comparative residential layout analysis (not started)
+├── final_project/                   Comparative residential layout analysis (pending)
 │
 └── archive/
-    ├── duplicate_notebooks/         Exact or near-duplicate course notebooks
+    ├── duplicate_notebooks/         Near-duplicate course notebooks
     ├── obsolete_outputs/            Generated files from superseded workflows
     └── superseded_work/             Notebook variants replaced by later work
 ```
 
 ## Assignments
 
-| # | Name | Status | Primary references |
-|---|------|--------|--------------------|
-| 1 | Graph Generation | In progress | S02 geometry-to-topology notebooks |
-| 2 | Graph Analysis | Not started | S03 spatial intelligence notebooks |
-| 3 | No-Grad Evaluation | Not started | S06-13A, S06-13B notebooks |
+| # | Name | Status | Key outputs |
+|---|------|--------|-------------|
+| 1 | Graph Generation | **Complete** | BB_01/02/03 nodes.csv + edges.csv; 9 visuals per building |
+| 2 | Graph Analysis | **Mostly complete** | BB_01/02/03 metrics CSVs; full visuals and interpretation for BB_01 only |
+| 3 | No-Grad Evaluation | **Complete** | BGR graph dataset; model pred_label=1 (Separation with Plinth, prob≈0.9999) |
 
-## Key constraint
+## Source geometry
 
-`shared/assets/resident_gen/` contains exports from the resident_gen Grasshopper generator:
-- `TB_01/` — Double-L residential layout (5 floors, 573 rooms) — **Assignment 1 source**
-- `BB_01/` — Two-bar layout (2 floors, 81 rooms, 73 doors) — **Final project source**
+`shared/assets/resident_gen/Exports/` contains exports from the Two-Bars resident_gen Grasshopper generator:
 
-`TB_01_doors.obj` is empty (0 doors exported). Assignment 1 uses shared-face adjacency
-as the edge strategy. Door-access edges require geometry fix in Grasshopper first.
+| Folder | Description | Nodes | Edges |
+|--------|-------------|-------|-------|
+| `BB_01/` | Two-bars, standard layout | 175 | 388 |
+| `BB_02/` | Two-bars, deeper plan | 381 | 858 |
+| `BB_03/` | Two-bars, wider apartments | 141 | 303 |
+
+Assignment 1 uses bounding-box spatial adjacency (0.45 m gap tolerance) because door geometry
+is absent from the resident_gen OBJ exports.
+
+## Assignment 3 BGR result
+
+Model prediction: **Separation with Plinth** (label 1), probability ≈ 0.9999.
+Student manual label recorded in `graphs.csv`: **Separation** (label 0).
+The model prediction and the student's manual typological assessment differ.
+
+Pretrained model: `shared/assets/course_supporting_files/bgr_model.pt` (34.8 MB, not retrained).
 
 ## References
 
-All course notebooks are in `class_notebooks/` organised by session.
-Do not modify course notebooks. Do not copy content from external student repositories.
+All course notebooks are in `class_notebooks/` organised by session. Do not modify them.
+Planning documents and the requirements checklist are in `shared/docs/`.
