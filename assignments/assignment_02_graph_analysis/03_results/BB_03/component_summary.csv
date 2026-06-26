@@ -1,4 +1,0 @@
-layout_id,component_id,n_nodes,n_edges,physical_floors,rooms,corridors,cores,diameter,avg_path_len
-BB_03,0,48,103,[2],41,6,1,7,3.758
-BB_03,1,47,101,[1],40,6,1,7,3.8603
-BB_03,2,46,99,[0],39,6,1,7,3.6763

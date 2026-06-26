@@ -1,0 +1,12 @@
+
+MaCAD S.3 — Assignment 1
+Two-Bars BB_01: Compact baseline
+
+Nodes: 175 | Rooms: 161 | Corridors: 12 | Cores: 2
+Edges: 388
+Physical floors: 2
+Components: 2
+Isolated nodes: 0
+
+Method: Graph.ByTopology using exact shared-face adjacency.
+Limitation: wall thickness can prevent intended adjacencies.

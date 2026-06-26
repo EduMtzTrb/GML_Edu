@@ -16,9 +16,24 @@ Applies the Two-Bars resident_gen geometry and the course BGR workflow to an ori
 │   └── S07_graph_generation_neo4j/ S07-16 through S07-20
 │
 ├── assignments/
-│   ├── assignment_01_graph_generation/   Room-and-circulation graph from OBJ geometry
-│   ├── assignment_02_graph_analysis/     Graph metric analysis and spatial interpretation
-│   └── assignment_03_no_grad_evaluation/ BGR no-grad prediction with pretrained model
+│   ├── assignment_01_graph_generation/
+│   │   ├── 01_brief_and_references/
+│   │   ├── 02_notebook_work/
+│   │   ├── 03_graph_dataset/
+│   │   ├── 04_visuals/
+│   │   └── 05_submission_text/
+│   ├── assignment_02_graph_analysis/
+│   │   ├── 01_notebook_work/
+│   │   ├── 02_results/
+│   │   ├── 03_visuals/
+│   │   └── 04_submission_text/
+│   └── assignment_03_no_grad_evaluation/
+│       ├── 01_brief_and_references/
+│       ├── 02_input_graph/
+│       ├── 03_notebook_work/
+│       ├── 04_predictions/
+│       ├── 05_visuals/
+│       └── 06_submission_text/
 │
 ├── shared/
 │   ├── assets/
