@@ -1,0 +1,9 @@
+topologicpy
+topologic_core
+numpy
+pandas
+networkx
+matplotlib
+plotly
+nbformat
+ipykernel

@@ -1,0 +1,70 @@
+GRAPHML EXPORTER
+================
+Layout ID:      BB_02
+Layout Family:  two_bars
+Variation:      long_spine
+Timestamp:      2026-06-26T12:10:17.025189
+
+Input rooms:    360
+Valid rooms:    360
+Failed rooms:   0
+
+Floors:         6
+Apartments:     72
+Rooms:          360
+Corridors received: 18
+Cores received:     3
+
+Doors received:   316
+Windows received: 243
+Floor received:   9
+
+Room geometry runtime types, first 5:
+  [0] type=Guid     guid_resolved=yes              resolved_doc=scriptcontext.doc    resolved_geo=Brep       coerce=Brep
+  [1] type=Guid     guid_resolved=yes              resolved_doc=scriptcontext.doc    resolved_geo=Brep       coerce=Brep
+  [2] type=Guid     guid_resolved=yes              resolved_doc=scriptcontext.doc    resolved_geo=Brep       coerce=Brep
+  [3] type=Guid     guid_resolved=yes              resolved_doc=scriptcontext.doc    resolved_geo=Brep       coerce=Brep
+  [4] type=Guid     guid_resolved=yes              resolved_doc=scriptcontext.doc    resolved_geo=Brep       coerce=Brep
+
+Geometry: all rooms valid
+
+Files written:
+  BB_02_rooms.obj
+  BB_02_doors.obj
+  BB_02_windows.obj
+  BB_02_floor.obj
+  BB_02_corridors.obj
+  BB_02_cores.obj
+  BB_02_metadata.csv
+  BB_02_manifest.json
+  BB_02_export_report.txt
+
+Output folder:
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02
+
+Rooms exported:      360
+Rooms failed:        0
+Doors exported:      316 / 316 received
+Windows exported:    243 / 243 received
+Floor exported:      9 / 9 received
+Corridors exported:  18 / 18 received
+Cores exported:      3 / 3 received
+
+All written paths:
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_rooms.obj
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_doors.obj
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_windows.obj
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_floor.obj
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_corridors.obj
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_cores.obj
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_metadata.csv
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_manifest.json
+  D:\GitHub\GML_Edu\shared\assets\resident_gen\Exports\BB_02\BB_02_export_report.txt
+
+Next workflow:
+  -> import OBJ and metadata into course notebook pipeline
+  -> use TB_01_rooms.obj with Topology.ByOBJPath in notebook
+  -> use TB_01_metadata.csv to assign node attributes
+  -> use TB_01_manifest.json for dataset provenance
+
+STATUS: EXPORTED
